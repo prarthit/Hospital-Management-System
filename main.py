@@ -157,6 +157,7 @@ class MainApp(QMainWindow, ui):
 
 		string = string[:len(string)-1] + ')'
 		string2 = string2[:len(string2)-1] + ')'	
+		print(type(data[0]))
 		
 		mycursor.execute("INSERT INTO "+string+string2, data)
 		mydb.commit()
