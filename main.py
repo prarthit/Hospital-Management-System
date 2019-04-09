@@ -13,7 +13,7 @@ import mysql.connector
 mydb = mysql.connector.connect(
 	host="localhost",
 	user="root",
-	password="yogislife",
+	password="1234",
 	database="HMS"
 )
 
@@ -38,39 +38,42 @@ class MainApp(QMainWindow, ui):
 		self.pushButton_8.clicked.connect(self.insert)
 		self.pushButton_9.clicked.connect(self.update)
 		self.pushButton_7.clicked.connect(self.delete)
+		self.pushButton_11.clicked.connect(self.backBtn)
+		self.pushButton_12.clicked.connect(self.backBtn)
+		self.pushButton_13.clicked.connect(self.backBtn)
+		self.pushButton_14.clicked.connect(self.backBtn)
 
 	def receptionist(self):
-		self.prevIndex = self.stackedWidget.currentIndex()
 		self.stackedWidget.setCurrentIndex(2);
-		self.currIndex = self.stackedWidget.currentIndex()
 
 	def infraAdmin(self):
-		self.prevIndex = self.stackedWidget.currentIndex()
 		self.stackedWidget.setCurrentIndex(3);
-		self.currIndex = self.stackedWidget.currentIndex()
 
 	def financeAdmin(self):
-		self.prevIndex = self.stackedWidget.currentIndex()
 		self.stackedWidget.setCurrentIndex(4);
-		self.currIndex = self.stackedWidget.currentIndex()
 
 	def backBtn(self):
-		prevIndex = self.prevIndex
-		self.prevIndex = self.stackedWidget.currentIndex()
-		self.stackedWidget.setCurrentIndex(prevIndex);
-		self.currIndex = self.stackedWidget.currentIndex()
+		currIndex = self.stackedWidget.currentIndex();
+		if(currIndex==3 or currIndex==4):
+			self.stackedWidget.setCurrentIndex(1);
+		elif(currIndex==5):
+			self.stackedWidget.setCurrentIndex(self.prevIndex);
+		else:
+			self.stackedWidget.setCurrentIndex(currIndex-1);
 
 	def nextBtn(self):
-		self.prevIndex = self.stackedWidget.currentIndex()
-		self.stackedWidget.setCurrentIndex(self.currIndex + 1);
-		self.currIndex = self.stackedWidget.currentIndex()
+		currIndex = self.stackedWidget.currentIndex();
+		self.stackedWidget.setCurrentIndex(currIndex + 1);
 
 	def showTable(self):
 		_translate = QCoreApplication.translate
 		radios = [[1,8,9], [2,10,11,12,13], [3,14,15]]
 
-		for i in range(len(radios[self.currIndex - 2])):
-			selected_radio = self.findChild(QRadioButton, "radioButton_"+str(radios[self.currIndex - 2][i]))
+		currIndex = self.stackedWidget.currentIndex()
+		self.prevIndex = currIndex;
+
+		for i in range(len(radios[currIndex - 2])):
+			selected_radio = self.findChild(QRadioButton, "radioButton_"+str(radios[currIndex - 2][i]))
 			if selected_radio.isChecked():
 				self.tableName = selected_radio.text()
 				mycursor.execute("SELECT * FROM "+str(self.tableName))
@@ -79,38 +82,36 @@ class MainApp(QMainWindow, ui):
 				break
 
 		if(self.tableName == "Patient"):
-			if(hasattr(self, 'pushButton_11')):
-				self.pushButton_11.deleteLater()
-			if(hasattr(self, 'pushButton_12')):
-				self.pushButton_12.deleteLater()
+			if(hasattr(self, 'extraBtn1')):
+				self.extraBtn1.deleteLater()
+			if(hasattr(self, 'extraBtn2')):
+				self.extraBtn2.deleteLater()
 
-			self.pushButton_11 = QPushButton(self.page_5)
-			self.pushButton_11.setGeometry(QRect(270, 380, 141, 40))
-			self.pushButton_11.setObjectName("pushButton_11")
-			self.pushButton_11.setText(_translate("MainWindow", "Medical History"))
-			self.pushButton_11.clicked.connect(self.medicalHistory)
+			self.extraBtn1 = QPushButton(self.page_5)
+			self.extraBtn1.setGeometry(QRect(270, 380, 141, 40))
+			self.extraBtn1.setObjectName("extraBtn1")
+			self.extraBtn1.setText(_translate("MainWindow", "Medical History"))
+			self.extraBtn1.clicked.connect(self.medicalHistory)
 
 		elif(self.tableName == "Doctor"):
-			if(hasattr(self, 'pushButton_11')):
-				self.pushButton_11.deleteLater()
-			if(hasattr(self, 'pushButton_12')):
-				self.pushButton_12.deleteLater()
+			if(hasattr(self, 'extraBtn1')):
+				self.extraBtn1.deleteLater()
+			if(hasattr(self, 'extraBtn2')):
+				self.extraBtn2.deleteLater()
 
-			self.pushButton_11 = QPushButton(self.page_5)
-			self.pushButton_11.setGeometry(QRect(210, 380, 111, 40))
-			self.pushButton_11.setObjectName("pushButton_11")
-			self.pushButton_12 = QPushButton(self.page_5)
-			self.pushButton_12.setGeometry(QRect(340, 380, 131, 40))
-			self.pushButton_12.setObjectName("pushButton_12")
-			self.pushButton_11.setText(_translate("MainWindow", "Appointment"))
-			self.pushButton_12.setText(_translate("MainWindow", "Emergency Alert"))
+			self.extraBtn1 = QPushButton(self.page_5)
+			self.extraBtn1.setGeometry(QRect(210, 380, 111, 40))
+			self.extraBtn1.setObjectName("extraBtn1")
+			self.extraBtn2 = QPushButton(self.page_5)
+			self.extraBtn2.setGeometry(QRect(340, 380, 131, 40))
+			self.extraBtn2.setObjectName("extraBtn2")
+			self.extraBtn1.setText(_translate("MainWindow", "Appointment"))
+			self.extraBtn2.setText(_translate("MainWindow", "Emergency Alert"))
 
-			self.pushButton_11.clicked.connect(self.appointment)
-			self.pushButton_12.clicked.connect(self.emerAlert)
+			self.extraBtn1.clicked.connect(self.appointment)
+			self.extraBtn2.clicked.connect(self.emerAlert)
         
-		self.prevIndex = self.stackedWidget.currentIndex()
 		self.stackedWidget.setCurrentIndex(5)
-		self.currIndex = self.stackedWidget.currentIndex()
 
 	def loadTableData(self, rows):
 		mycursor.execute("SHOW Columns FROM "+str(self.tableName))
