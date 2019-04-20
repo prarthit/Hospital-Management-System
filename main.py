@@ -20,10 +20,12 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 
 ui,_ = loadUiType('main.ui')
+emergency_ui,_ = loadUiType('emergency.ui')
 
 class MainApp(QMainWindow, ui):
 	def __init__(self):
 		QMainWindow.__init__(self)
+		ui.setupUi(self, self)
 		self.setupUi(self)
 		self.setupButtons()
 
@@ -233,7 +235,7 @@ class MainApp(QMainWindow, ui):
 		self.loadTableData(rows)
 
 	def appointment(self):
-		print("appo")
+		print("appointment btn clicked")
 
 	def emerAlert(self):
 		currTime = datetime.now().strftime("%H:%M:%S")
@@ -249,6 +251,14 @@ class MainApp(QMainWindow, ui):
 				rows.append(item)
 		
 		self.loadTableData(rows)
+
+		self.emerWind = QMainWindow()
+		emerUi = emergency_ui()
+		emerUi.setupUi(self.emerWind)
+
+		emerUi.pushButton.clicked.connect(self.medicalHistory)
+
+		self.emerWind.show()
 
 # class reqWindow(QMainWindow, req):
 # 	def __init__(self, objd):

@@ -48,7 +48,7 @@ insert into Salary_record(dept,staff_type,salary)values('Pysho','Nurse','13000')
 insert into Staff(staff_id,name,staff_type,contact_no,address)values('1','Suzan','Nurse',9433443243,'Indra-vihar');
 insert into Fund_allocation(fund_id,dept,year,hod,amount)values('1','Pyscho','2019-01-01','Dr Gulati','423435');
 insert into Lab_module(lab_test_id,diagnosis,lab_test_type,patient_id)values('1','Low Platelete','Blood Test','1');
-insert into OT(status,patient_id)values('Vacant',NULL);	
+insert into OT(status,patient_id)values('Vacant',NULL);
  
 -- Queries to show the schema of the tables
 show columns from Patient;
