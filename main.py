@@ -26,6 +26,7 @@ class MainApp(QMainWindow, ui):
 	def __init__(self):
 		QMainWindow.__init__(self)
 		ui.setupUi(self, self)
+		self.setupUi(self)
 		self.setupButtons()
 
 	def setupButtons(self):

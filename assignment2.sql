@@ -37,7 +37,7 @@ alter table OT add foreign key (patient_id) references Patient(patient_id) on de
 insert into Patient(patient_id,name,sex,address,contact_no) values(1,'Abhishek','M','vill-Ramnagar',60058951);
 insert into Patient(patient_id,name,sex,address,contact_no) values(2,'Deepanshu','M','Indore',9454354534);
 insert into Med_History(admission_date,discharge_date,diagnosis,medication,patient_id) values('2019-04-02','2019-05-06','Malaria','Paracetamole','1');	
-insert into Doctor(doctor_id,name,dept,time_in,time_out) values('1','Dr. Gulati','OPD','01:00:00','11:00:00');
+insert into Doctor(doctor_id,name,dept,time_in,time_out,consult_capacity) values('1','Dr. Gulati','OPD','01:00:00','11:00:00',20);
 insert into Appointment(patient_id,doctor_id) values('2','1');
 insert into Emergency_Alert(message_id,message,doctor_id) values('1','Bleeding from head','1');
 insert into Ambulance(ambulance_id,status) values('HR43-344','Busy');
@@ -48,7 +48,7 @@ insert into Salary_record(dept,staff_type,salary)values('Pysho','Nurse','13000')
 insert into Staff(staff_id,name,staff_type,contact_no,address)values('1','Suzan','Nurse',9433443243,'Indra-vihar');
 insert into Fund_allocation(fund_id,dept,year,hod,amount)values('1','Pyscho','2019-01-01','Dr Gulati','423435');
 insert into Lab_module(lab_test_id,diagnosis,lab_test_type,patient_id)values('1','Low Platelete','Blood Test','1');
-insert into OT(status,patient_id)values('Vacant', null);
+insert into OT(status,patient_id)values('Vacant',NULL);
  
 -- Queries to show the schema of the tables
 show columns from Patient;
@@ -63,6 +63,5 @@ show columns from Staff;
 show columns from Salary_record;
 show columns from Ambulance;
 
-
-
+Alter table Doctor add consult_capacity int(5);
 
