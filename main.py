@@ -3,6 +3,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUiType
 
+from functools import partial
+
 from datetime import timedelta
 from datetime import datetime
 
@@ -254,36 +256,23 @@ class MainApp(QMainWindow, ui):
 		self.emerWind = QMainWindow()
 		emerUi = emergency_ui()
 		emerUi.setupUi(self.emerWind)
-
-		emerUi.pushButton.clicked.connect(self.medicalHistory)
-
+		emerUi.pushButton.clicked.connect(partial(self.emer_submit, emerUi))
 		self.emerWind.show()
 
-# class reqWindow(QMainWindow, req):
-# 	def __init__(self, objd):
-# 		super(reqWindow, self).__init__(objd)
-# 		self.setupUi(self)
+	def emer_submit(self, emerUi):
+		doc_id = emerUi.lineEdit.text()
+		msg = emerUi.textEdit.toPlainText()
 
-# 		self.pushButton.clicked.connect(self.submit)
+		mycursor.execute("INSERT INTO Emergency_Alert VALUES(%s, %s)", (msg, doc_id))
+		mydb.commit()
 
-# 	def submit(self):
-# 		user_id = self.lineEdit.text()
-# 		book_id = self.lineEdit_2.text()
-
-# 		if(fns.req_book(user_id, book_id) == False or fns.borrow_allowed(user_id) == False):
-# 			self.messagebox("Admin Message","Sorry Book Can't Be Issued");
-# 			print(fns.req_book_queue)
-
-# 		else:
-# 			mycursor.execute("UPDATE Book SET User_id = %s, IssueDate = %s, ReturnDate = %s WHERE Id = %s", (user_id, fns.date_today, None, book_id))
-# 			mydb.commit()
-
-# 		self.close()
+		self.emerWind.close()
+		self.messagebox("Admin Message", "Emergency message sent successfully");
 		
-# 	def messagebox(self, title, message):
-# 		w=QWidget()
-# 		QMessageBox.information(w, title, message)
-# 		w.show()
+	def messagebox(self, title, message):
+		w=QWidget()
+		QMessageBox.information(w, title, message)
+		w.show()
 
 if __name__ == "__main__":
 	app = QApplication(sys.argv)
