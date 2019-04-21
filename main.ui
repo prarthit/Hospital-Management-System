@@ -30,7 +30,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page_9">
      <widget class="QPushButton" name="pushButton_15">
@@ -244,7 +244,7 @@
         <rect>
          <x>50</x>
          <y>30</y>
-         <width>73</width>
+         <width>121</width>
          <height>23</height>
         </rect>
        </property>
@@ -254,7 +254,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Lab</string>
+        <string>Lab_module</string>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -296,7 +296,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Ward</string>
+        <string>Wards</string>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_5">
@@ -317,7 +317,7 @@
         <rect>
          <x>50</x>
          <y>150</y>
-         <width>81</width>
+         <width>111</width>
          <height>23</height>
         </rect>
        </property>
@@ -327,7 +327,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Bed</string>
+        <string>Bed_record</string>
        </property>
       </widget>
       <widget class="QRadioButton" name="radioButton_13">
@@ -345,7 +345,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Operation Theatre</string>
+        <string>OT</string>
        </property>
       </widget>
      </widget>
@@ -405,7 +405,7 @@
         <rect>
          <x>50</x>
          <y>30</y>
-         <width>73</width>
+         <width>121</width>
          <height>23</height>
         </rect>
        </property>
@@ -415,7 +415,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Salary</string>
+        <string>Salary_record</string>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -439,7 +439,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Fund Allocation</string>
+        <string>Fund_allocation</string>
        </property>
       </widget>
       <widget class="QRadioButton" name="radioButton_15">
@@ -584,7 +584,7 @@
        <string> Insert</string>
       </property>
       <property name="icon">
-       <iconset resource="../../Assignment 1/newstart/icons/icons.qrc">
+       <iconset>
         <normaloff>:/icons/insert.png</normaloff>:/icons/insert.png</iconset>
       </property>
       <property name="iconSize">
@@ -616,7 +616,7 @@
        <string> Delete</string>
       </property>
       <property name="icon">
-       <iconset resource="../../Assignment 1/newstart/icons/icons.qrc">
+       <iconset>
         <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
       </property>
       <property name="iconSize">
@@ -639,7 +639,7 @@
        <string> Update</string>
       </property>
       <property name="icon">
-       <iconset resource="../../Assignment 1/newstart/icons/icons.qrc">
+       <iconset>
         <normaloff>:/icons/update.png</normaloff>:/icons/update.png</iconset>
       </property>
       <property name="iconSize">

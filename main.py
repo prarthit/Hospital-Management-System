@@ -15,7 +15,7 @@ import mysql.connector
 mydb = mysql.connector.connect(
 	host="localhost",
 	user="root",
-	password="1234",
+	password="yogislife",
 	database="HMS"
 )
 
@@ -162,6 +162,7 @@ class MainApp(QMainWindow, ui):
 
 		string = string[:len(string)-1] + ')'
 		string2 = string2[:len(string2)-1] + ')'	
+		print(type(data[0]))
 		
 		mycursor.execute("INSERT INTO "+string+string2, data)
 		mydb.commit()
