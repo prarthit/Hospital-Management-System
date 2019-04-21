@@ -8,7 +8,7 @@ create table Patient(patient_id int(10),Name varchar(20),sex enum('M','F','Other
 create table Med_History(admission_date DATE, discharge_date DATE, diagnosis text, medication text,patient_id int(10));
 create table Doctor(doctor_id int(5), name varchar(20), dept varchar(10), time_in Time, time_out time, primary key(doctor_id));
 create table Appointment(patient_id int(10),doctor_id int(5));
-create table Emergency_Alert(message_id varchar(20), message text, primary key(message_id),doctor_id int(5));
+create table Emergency_Alert(message text, doctor_id int(5));
 create table Ambulance(ambulance_id varchar(20), primary key(ambulance_id), status varchar(20));
 create table Ambulance_alert(message_id int(20), date_of_alert date, Address text, ambulance_id varchar(20), primary key(message_id));
 
@@ -32,14 +32,21 @@ alter table Bed_record add foreign key (patient_id) references Patient(patient_i
 alter table Lab_module add foreign key (patient_id) references Patient(patient_id) on delete cascade;
 alter table OT add foreign key (patient_id) references Patient(patient_id) on delete cascade;
 
+Alter table Doctor add consult_capacity int(5);
 
 -- insert queries 
+insert into Doctor(doctor_id,name,dept,time_in,time_out,consult_capacity) values('1','Dr. Gulati','OPD','01:00:00','11:00:00',20);
 insert into Patient(patient_id,name,sex,address,contact_no) values(1,'Abhishek','M','vill-Ramnagar',60058951);
 insert into Patient(patient_id,name,sex,address,contact_no) values(2,'Deepanshu','M','Indore',9454354534);
 insert into Med_History(admission_date,discharge_date,diagnosis,medication,patient_id) values('2019-04-02','2019-05-06','Malaria','Paracetamole','1');	
+<<<<<<< HEAD
 insert into Doctor(doctor_id,name,dept,time_in,time_out,consult_capacity) values(1,'Dr. Gulati','OPD','01:00:00','11:00:00',20);
 insert into Appointment(patient_id,doctor_id) values(2,1);
 insert into Emergency_Alert(message_id,message,doctor_id) values('1','Bleeding from head','1');
+=======
+insert into Appointment(patient_id,doctor_id) values(2,1);
+insert into Emergency_Alert(message,doctor_id) values('Bleeding from head',1);
+>>>>>>> a2cb1f103fde50825c5e766231899bdd79649e04
 insert into Ambulance(ambulance_id,status) values('HR43-344','Busy');
 insert into Ambulance_alert(message_id,date_of_alert,Address,ambulance_id)values('1','2019-05-03','Sharma Appartement,Punjabi Bagh','HR43-344');
 insert into Wards(ward_id,dept,Ward_type) values('1','Pysho','2');	
@@ -61,7 +68,11 @@ show columns from Emergency_Alert;
 show columns from Fund_allocation;
 show columns from Staff;
 show columns from Salary_record;
+<<<<<<< HEAD
 show columns from Ambulance;
 
 Alter table Doctor add consult_capacity int(5);
 Alter table Bed_record add Ward_type enum('1','2','3');
+=======
+show columns from Ambulance;
+>>>>>>> a2cb1f103fde50825c5e766231899bdd79649e04

@@ -3,6 +3,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUiType
 
+from functools import partial
+
 from datetime import timedelta
 from datetime import datetime
 
@@ -83,11 +85,12 @@ class MainApp(QMainWindow, ui):
 				self.loadTableData(rows)
 				break
 
+		if(hasattr(self, 'extraBtn1')):
+			self.extraBtn1.deleteLater()
+		if(hasattr(self, 'extraBtn2')):
+			self.extraBtn2.deleteLater()
+
 		if(self.tableName == "Patient"):
-			if(hasattr(self, 'extraBtn1')):
-				self.extraBtn1.deleteLater()
-			if(hasattr(self, 'extraBtn2')):
-				self.extraBtn2.deleteLater()
 
 			self.extraBtn1 = QPushButton(self.page_5)
 			self.extraBtn1.setGeometry(QRect(270, 380, 141, 40))
@@ -96,10 +99,6 @@ class MainApp(QMainWindow, ui):
 			self.extraBtn1.clicked.connect(self.medicalHistory)
 
 		elif(self.tableName == "Bed_record"):
-			if(hasattr(self, 'extraBtn1')):
-				self.extraBtn1.deleteLater()
-			if(hasattr(self, 'extraBtn2')):
-				self.extraBtn2.deleteLater()
 
 			self.extraBtn1 = QPushButton(self.page_5)
 			self.extraBtn1.setGeometry(QRect(270, 380, 141, 40))
@@ -109,10 +108,6 @@ class MainApp(QMainWindow, ui):
 
 
 		elif(self.tableName == "Doctor"):
-			if(hasattr(self, 'extraBtn1')):
-				self.extraBtn1.deleteLater()
-			if(hasattr(self, 'extraBtn2')):
-				self.extraBtn2.deleteLater()
 
 			self.extraBtn1 = QPushButton(self.page_5)
 			self.extraBtn1.setGeometry(QRect(210, 380, 111, 40))
@@ -268,14 +263,13 @@ class MainApp(QMainWindow, ui):
 		self.emerWind = QMainWindow()
 		emerUi = emergency_ui()
 		emerUi.setupUi(self.emerWind)
-
-		emerUi.pushButton.clicked.connect(self.medicalHistory)
-
+		emerUi.pushButton.clicked.connect(partial(self.emer_submit, emerUi))
 		self.emerWind.show()
+
 
 	def showBed(self):
 		row=[];
-		mycursor.execute("SELECT * FROM Bed_record where status='F'");
+		mycursor.execute("SELECT * FROM Bed_record where status='V'");
 		records=mycursor.fetchall();
 		for items in records:
 			row.append(items);
@@ -290,24 +284,20 @@ class MainApp(QMainWindow, ui):
 
 # 		self.pushButton.clicked.connect(self.submit)
 
-# 	def submit(self):
-# 		user_id = self.lineEdit.text()
-# 		book_id = self.lineEdit_2.text()
+	def emer_submit(self, emerUi):
+		doc_id = emerUi.lineEdit.text()
+		msg = emerUi.textEdit.toPlainText()
 
-# 		if(fns.req_book(user_id, book_id) == False or fns.borrow_allowed(user_id) == False):
-# 			self.messagebox("Admin Message","Sorry Book Can't Be Issued");
-# 			print(fns.req_book_queue)
+		mycursor.execute("INSERT INTO Emergency_Alert VALUES(%s, %s)", (msg, doc_id))
+		mydb.commit()
 
-# 		else:
-# 			mycursor.execute("UPDATE Book SET User_id = %s, IssueDate = %s, ReturnDate = %s WHERE Id = %s", (user_id, fns.date_today, None, book_id))
-# 			mydb.commit()
-
-# 		self.close()
+		self.emerWind.close()
+		self.messagebox("Admin Message", "Emergency message sent successfully");
 		
-# 	def messagebox(self, title, message):
-# 		w=QWidget()
-# 		QMessageBox.information(w, title, message)
-# 		w.show()
+	def messagebox(self, title, message):
+		w=QWidget()
+		QMessageBox.information(w, title, message)
+		w.show()
 
 if __name__ == "__main__":
 	app = QApplication(sys.argv)
