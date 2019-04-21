@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUiType
 
 from functools import partial
+import sip
 
 from datetime import timedelta
 from datetime import datetime
@@ -85,13 +86,12 @@ class MainApp(QMainWindow, ui):
 				self.loadTableData(rows)
 				break
 
-		if(hasattr(self, 'extraBtn1')):
+		if(hasattr(self, 'extraBtn1') and sip.isdeleted(self.extraBtn1)==False):
 			self.extraBtn1.deleteLater()
-		if(hasattr(self, 'extraBtn2')):
+		if(hasattr(self, 'extraBtn2') and sip.isdeleted(self.extraBtn2)==False):
 			self.extraBtn2.deleteLater()
 
 		if(self.tableName == "Patient"):
-
 			self.extraBtn1 = QPushButton(self.page_5)
 			self.extraBtn1.setGeometry(QRect(270, 380, 141, 40))
 			self.extraBtn1.setObjectName("extraBtn1")
@@ -108,7 +108,6 @@ class MainApp(QMainWindow, ui):
 
 
 		elif(self.tableName == "Doctor"):
-
 			self.extraBtn1 = QPushButton(self.page_5)
 			self.extraBtn1.setGeometry(QRect(210, 380, 111, 40))
 			self.extraBtn1.setObjectName("extraBtn1")
