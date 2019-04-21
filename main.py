@@ -95,6 +95,19 @@ class MainApp(QMainWindow, ui):
 			self.extraBtn1.setText(_translate("MainWindow", "Medical History"))
 			self.extraBtn1.clicked.connect(self.medicalHistory)
 
+		elif(self.tableName == "Bed_record"):
+			if(hasattr(self, 'extraBtn1')):
+				self.extraBtn1.deleteLater()
+			if(hasattr(self, 'extraBtn2')):
+				self.extraBtn2.deleteLater()
+
+			self.extraBtn1 = QPushButton(self.page_5)
+			self.extraBtn1.setGeometry(QRect(270, 380, 141, 40))
+			self.extraBtn1.setObjectName("extraBtn1")
+			self.extraBtn1.setText(_translate("MainWindow", "Show Bed"))
+			self.extraBtn1.clicked.connect(self.showBed)
+
+
 		elif(self.tableName == "Doctor"):
 			if(hasattr(self, 'extraBtn1')):
 				self.extraBtn1.deleteLater()
@@ -259,6 +272,16 @@ class MainApp(QMainWindow, ui):
 		emerUi.pushButton.clicked.connect(self.medicalHistory)
 
 		self.emerWind.show()
+
+	def showBed(self):
+		row=[];
+		mycursor.execute("SELECT * FROM Bed_record where status='F'");
+		records=mycursor.fetchall();
+		for items in records:
+			row.append(items);
+
+		self.loadTableData(row);
+
 
 # class reqWindow(QMainWindow, req):
 # 	def __init__(self, objd):
