@@ -328,13 +328,6 @@ class MainApp(QMainWindow, ui):
 		payBillUi.setupUi(self.payBillWind)
 		payBillUi.pushButton.clicked.connect(partial(self.payBill_submit, payBillUi))
 		self.payBillWind.show()
-
-# class reqWindow(QMainWindow, req):
-# 	def __init__(self, objd):
-# 		super(reqWindow, self).__init__(objd)
-# 		self.setupUi(self)
-
-# 		self.pushButton.clicked.connect(self.submit)
 	
 	def payBill_submit(self, payBillUi):
 		pat_id = payBillUi.lineEdit.text()
