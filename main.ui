@@ -29,25 +29,39 @@
       <height>441</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page_9">
+     <property name="styleSheet">
+      <string notr="true">border-image: url(:/icons_download/icons/hospital.jpg) 0 0 0 0 stretch stretch;</string>
+     </property>
      <widget class="QPushButton" name="pushButton_15">
       <property name="geometry">
        <rect>
-        <x>210</x>
-        <y>200</y>
-        <width>89</width>
-        <height>25</height>
+        <x>460</x>
+        <y>380</y>
+        <width>101</width>
+        <height>41</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">border-image: none;</string>
+      </property>
       <property name="text">
-       <string>Mainpage</string>
+       <string>Enter &gt;&gt;</string>
       </property>
      </widget>
     </widget>
     <widget class="QWidget" name="page">
+     <property name="styleSheet">
+      <string notr="true">#page{
+background-image: url(:/icons_download/icons/staff.jpg);
+}</string>
+     </property>
      <widget class="QPushButton" name="pushButton">
       <property name="geometry">
        <rect>
@@ -102,6 +116,11 @@
      </widget>
     </widget>
     <widget class="QWidget" name="page_2">
+     <property name="styleSheet">
+      <string notr="true">#page_2{
+border-image: url(:/icons_download/icons/nurse.jpg);
+}</string>
+     </property>
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
@@ -224,6 +243,11 @@
      </widget>
     </widget>
     <widget class="QWidget" name="page_3">
+     <property name="styleSheet">
+      <string notr="true">#page_3,#page_4{
+border-image: url(:/icons_download/icons/doctor.jpg);
+}</string>
+     </property>
      <widget class="QFrame" name="frame_2">
       <property name="geometry">
        <rect>
@@ -385,6 +409,11 @@
      </widget>
     </widget>
     <widget class="QWidget" name="page_4">
+     <property name="styleSheet">
+      <string notr="true">#page_4{
+border-image: url(:/icons_download/icons/doctor.jpg);
+}</string>
+     </property>
      <widget class="QFrame" name="frame_3">
       <property name="geometry">
        <rect>
@@ -657,7 +686,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="../../Assignment 1/newstart/icons/icons.qrc"/>
+  <include location="icons.qrc"/>
  </resources>
  <connections/>
 </ui>
