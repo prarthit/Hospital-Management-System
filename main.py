@@ -2,6 +2,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUiType
+from datetime import date
 
 from functools import partial
 import sip
@@ -24,6 +25,7 @@ mycursor = mydb.cursor()
 
 ui,_ = loadUiType('main.ui')
 emergency_ui,_ = loadUiType('emergency.ui')
+payBill_ui,_= loadUiType('payBill.ui')
 
 class MainApp(QMainWindow, ui):
 	def __init__(self):
@@ -101,11 +103,16 @@ class MainApp(QMainWindow, ui):
 		elif(self.tableName == "Bed_record"):
 
 			self.extraBtn1 = QPushButton(self.page_5)
-			self.extraBtn1.setGeometry(QRect(270, 380, 141, 40))
+			self.extraBtn1.setGeometry(QRect(210, 380, 111, 40))
 			self.extraBtn1.setObjectName("extraBtn1")
+			self.extraBtn2 = QPushButton(self.page_5)
+			self.extraBtn2.setGeometry(QRect(340, 380, 131, 40))
+			self.extraBtn2.setObjectName("extraBtn2")
 			self.extraBtn1.setText(_translate("MainWindow", "Show Bed"))
-			self.extraBtn1.clicked.connect(self.showBed)
+			self.extraBtn2.setText(_translate("MainWindow", "Pay Bill"))
 
+			self.extraBtn1.clicked.connect(self.showBed)
+			self.extraBtn2.clicked.connect(self.payBill)
 
 		elif(self.tableName == "Doctor"):
 			self.extraBtn1 = QPushButton(self.page_5)
@@ -275,6 +282,12 @@ class MainApp(QMainWindow, ui):
 
 		self.loadTableData(row);
 
+	def payBill(self):
+		self.payBillWind = QMainWindow()
+		payBillUi = payBill_ui()
+		payBillUi.setupUi(self.payBillWind)
+		payBillUi.pushButton.clicked.connect(partial(self.payBill_submit, payBillUi))
+		self.payBillWind.show()
 
 # class reqWindow(QMainWindow, req):
 # 	def __init__(self, objd):
@@ -282,6 +295,51 @@ class MainApp(QMainWindow, ui):
 # 		self.setupUi(self)
 
 # 		self.pushButton.clicked.connect(self.submit)
+	
+	def payBill_submit(self, payBillUi):
+		pat_id = payBillUi.lineEdit.text()
+		print(pat_id);
+
+		mycursor.execute("SELECT * FROM Bed_record where patient_id = %s",(pat_id,))
+		records=mycursor.fetchone();
+		print(records);
+
+		ward_id=records[2];
+		mycursor.execute("SELECT Ward_type FROM Wards where ward_id = %s",(ward_id,))
+		ward_type=mycursor.fetchone();
+		print(ward_type[0]);
+
+		print(records[4]);
+		temp1=str(records[4]);
+		temp2=str(records[5]);
+		strt_date=date(int(temp1[0:4]),int(temp1[5:7]),int(temp1[8:10]));
+		end_date=date(int(temp2[0:4]),int(temp2[5:7]),int(temp2[8:10]));
+		print(strt_date,end_date);
+		diff=end_date-strt_date;
+		print(diff.days);
+		no_of_days=diff.days;
+
+		if(ward_type[0]=='1'):
+			bill=500*no_of_days;
+		elif(ward_type[0]=='2'):
+			bill=400*no_of_days;
+		elif(ward_type[0]=='3'):
+			bill=300*no_of_days;
+
+		self.payBillWind.close()
+		self.messagebox("Admin Message", "Please pay the bill of "+str(bill));
+
+		mycursor.execute("UPDATE Bed_record set date_in=NULL, date_out=NULL, status='V', patient_id=NULL where patient_id=%s",(pat_id,))
+		mydb.commit();
+
+		self.tableName = "Bed_record"
+		index = self.tableWidget.currentRow()
+
+		mycursor.execute("SELECT * FROM "+str(self.tableName))
+		rows = mycursor.fetchall()
+
+		self.loadTableData(rows)
+
 
 	def emer_submit(self, emerUi):
 		doc_id = emerUi.lineEdit.text()
