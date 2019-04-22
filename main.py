@@ -17,7 +17,7 @@ import mysql.connector
 mydb = mysql.connector.connect(
 	host="localhost",
 	user="root",
-	password="yogislife",
+	password="1234",
 	database="HMS"
 )
 
@@ -50,6 +50,7 @@ class MainApp(QMainWindow, ui):
 		self.pushButton_12.clicked.connect(self.backBtn)
 		self.pushButton_13.clicked.connect(self.backBtn)
 		self.pushButton_14.clicked.connect(self.backBtn)
+		self.pushButton_15.clicked.connect(self.nextBtn)
 
 	def receptionist(self):
 		self.stackedWidget.setCurrentIndex(2);

@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="icons_download">
+    <file>icons/staff.jpg</file>
+    <file>icons/nurse.jpg</file>
+    <file>icons/doctor.jpg</file>
+    <file>icons/hospital.jpg</file>
+  </qresource>
+</RCC>
