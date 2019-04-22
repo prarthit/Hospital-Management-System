@@ -26,6 +26,7 @@ mycursor = mydb.cursor()
 ui,_ = loadUiType('main.ui')
 emergency_ui,_ = loadUiType('emergency.ui')
 payBill_ui,_= loadUiType('payBill.ui')
+appointment_ui,_ = loadUiType('appointment.ui')
 
 class MainApp(QMainWindow, ui):
 	def __init__(self):
@@ -173,8 +174,7 @@ class MainApp(QMainWindow, ui):
 				data[i] = None
 
 		string = string[:len(string)-1] + ')'
-		string2 = string2[:len(string2)-1] + ')'	
-		print(type(data[0]))
+		string2 = string2[:len(string2)-1] + ')'
 		
 		mycursor.execute("INSERT INTO "+string+string2, data)
 		mydb.commit()
@@ -249,7 +249,47 @@ class MainApp(QMainWindow, ui):
 		self.loadTableData(rows)
 
 	def appointment(self):
-		print("appointment btn clicked")
+		self.tableName = "Appointment"
+		index = self.tableWidget.currentRow()
+
+		mycursor.execute("SELECT * FROM "+str(self.tableName))
+		rows = mycursor.fetchall()
+
+		self.loadTableData(rows)
+
+		self.appoinWind = QMainWindow()
+		appoinUi = appointment_ui()
+		appoinUi.setupUi(self.appoinWind)
+		appoinUi.pushButton.clicked.connect(partial(self.appoin_submit, appoinUi))
+		self.appoinWind.show()
+
+	def appoin_submit(self, appoinUi):
+		doc_id = appoinUi.lineEdit.text()
+		patient_id = appoinUi.lineEdit_2.text()
+
+		mycursor.execute("SELECT COUNT(patient_id) FROM Appointment WHERE doctor_id=%s", (doc_id, ))
+		havingPatients, = mycursor.fetchone()
+
+		mycursor.execute("SELECT consult_capacity FROM Doctor WHERE doctor_id=%s", (doc_id, ))
+		numPatients, = mycursor.fetchone()
+
+		if(havingPatients+1 > numPatients):
+			self.messagebox("Admin Message", "Sorry appointment not fixed, doctor is full")
+
+		else:
+			mycursor.execute("INSERT INTO Appointment VALUES(%s, %s)", (patient_id, doc_id))
+			mydb.commit()
+
+			self.tableName = "Appointment"
+			index = self.tableWidget.currentRow()
+
+			mycursor.execute("SELECT * FROM "+str(self.tableName))
+			rows = mycursor.fetchall()
+
+			self.loadTableData(rows)
+
+			self.appoinWind.close()
+			self.messagebox("Admin Message", "Appointment fixed successfully!")
 
 	def emerAlert(self):
 		currTime = datetime.now().strftime("%H:%M:%S")
